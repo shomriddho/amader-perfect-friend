@@ -222,7 +222,7 @@ export default function HomePage() {
       {showSplash && <Splash onComplete={handleSplashComplete} />}
 
       {/* Floating navigation button to view letters */}
-      <div className="fixed top-5 right-5 z-50">
+      {/* <div className="fixed top-5 right-5 z-50">
         <Link
           to="/letters"
           className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md border border-sky-100 shadow-sm rounded-xl text-sky-700 text-sm font-medium hover:bg-sky-50 transition-all"
@@ -230,7 +230,7 @@ export default function HomePage() {
           <Mail className="w-4 h-4" />
           <span>All Chithis</span>
         </Link>
-      </div>
+      </div> */}
 
       <div id="smooth-wrapper">
         <div id="smooth-content">
