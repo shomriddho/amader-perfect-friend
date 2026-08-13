@@ -303,8 +303,8 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
               )}
             />
             <p className="text-xs text-slate-500">
-              Ultapalta Kichu likhben na, amar kache apner thikana ase. Ip
-              Adress er theke paoya.
+              Ultapalta Kichu likhben na, amar kache apner thikana ase. IP
+              Adress theke thikana jana jay.
             </p>
             <div className="flex justify-end gap-2 pt-2">
               <button

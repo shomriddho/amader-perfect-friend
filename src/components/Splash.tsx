@@ -47,13 +47,13 @@ function Splash({ onComplete }: SplashProps) {
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
+            duration: 1.2,
             stagger: 0.1,
             ease: "back.out(1.7)",
             scrambleText: {
               text: "{original}",
               chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-              speed: 0.4,
+              speed: 0.2,
             },
           },
           "-=0.4",
@@ -72,7 +72,7 @@ function Splash({ onComplete }: SplashProps) {
             setProgress(Math.round(progressObj.value));
           },
         },
-        "-=0.6",
+        "-=2",
       );
 
       // 4. Smoothly fade out the splash screen before unmounting
