@@ -15,6 +15,7 @@ import {
   Send,
 } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { supabase } from "@/lib/supabase";
 
 interface LetterEditorProps {
   value?: string;
@@ -29,7 +30,7 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [1, 2], // Only H1 and H2
+          levels: [1, 2],
         },
       }),
     ],
@@ -52,23 +53,38 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
     },
   });
 
-  // React Query Mutation to handle letter submission
+  // Supabase Mutation
   const submitLetterMutation = useMutation({
     mutationFn: async (payload: { senderName: string; letterHtml: string }) => {
-      console.log("📨 --- Chithi Submitted --- 📨");
-      console.log("Sender Name:", payload.senderName);
-      console.log("Letter HTML Content:", payload.letterHtml);
-      console.log("----------------------------");
+      const { data, error } = await supabase
+        .from("letters")
+        .insert([
+          {
+            sender_name: payload.senderName,
+            content_html: payload.letterHtml,
+          },
+        ])
+        .select();
 
-      return { success: true };
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
     },
     onSuccess: () => {
       setIsOpen(false);
-      alert("Chithi Successfully Sent!");
+      editor?.commands.setContent(""); // Reset editor after submission
+      alert("Chithi Successfully Sent to Ashfika! Ebar Jao, Pore Dekha Hobe. ");
+    },
+    onError: (err) => {
+      alert(
+        `Failed to send chithi, Hoyto amar bhul hoyche, kingba tomar.: ${err.message}`,
+      );
     },
   });
 
-  // TanStack Form setup for Modal Form
+  // TanStack Form setup
   const form = useForm({
     defaultValues: {
       senderName: "",
@@ -100,7 +116,6 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
     <div className="w-full max-w-3xl bg-white/90 backdrop-blur rounded-2xl border border-sky-100 shadow-md shadow-sky-100/50 overflow-hidden flex flex-col gap-2">
       {/* Mobile Toolbar */}
       <div className="flex items-center gap-1 p-2.5 bg-sky-50/60 border-b border-sky-100 flex-wrap select-none">
-        {/* Headings (H1 & H2 only) */}
         <button
           type="button"
           onClick={() =>
@@ -133,7 +148,6 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
 
         <div className="w-[1px] h-5 bg-sky-200 mx-1" />
 
-        {/* Text Styling */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -175,7 +189,6 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
 
         <div className="w-[1px] h-5 bg-sky-200 mx-1" />
 
-        {/* Lists */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -216,17 +229,17 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
         </button>
       </div>
 
-      {/* Editor Content Area */}
+      {/* Editor Input Area */}
       <EditorContent editor={editor} />
 
-      {/* Validation Error Notice */}
+      {/* Error Message */}
       {errorMsg && (
         <p className="text-red-500 text-sm font-sans px-5 pt-1 text-left">
           {errorMsg}
         </p>
       )}
 
-      {/* Submit Trigger Button */}
+      {/* Send Button */}
       <div className="p-3 bg-sky-50/40 border-t border-sky-100 flex justify-end">
         <button
           type="button"
@@ -238,7 +251,7 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
         </button>
       </div>
 
-      {/* Shadcn Modal Dialog */}
+      {/* Name Input Modal */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-md">
           <div className="space-y-2 text-left">
@@ -258,7 +271,6 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
             }}
             className="space-y-4 pt-2 text-left"
           >
-            {/* TanStack Form Field */}
             <form.Field
               name="senderName"
               validators={{
@@ -290,7 +302,10 @@ export default function LetterEditor({ onChange }: LetterEditorProps) {
                 </div>
               )}
             />
-
+            <p className="text-xs text-slate-500">
+              Ultapalta Kichu likhben na, amar kache apner thikana ase. Ip
+              Adress er theke paoya.
+            </p>
             <div className="flex justify-end gap-2 pt-2">
               <button
                 type="button"
