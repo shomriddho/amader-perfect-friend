@@ -14,6 +14,41 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <script>
+      (function () {
+        const originalTitle = document.title;
+        const messages = [
+          "Aii, Chole Gele Keno?? 🥺",
+          "Rag Korecho?? 🤔",
+          "I, am sorry 😔",
+          "Please Come Back 😢",
+          "I Miss You 😭",
+          "Chithi to likhe jao! ✍️",
+          "Plase, Don't Leave Me Alone 😞",
+          "I will wait for you 😔",
+          "Hoyse?? 😢",
+          "Achca, Arr ashish na",
+        ];
+        let intervalId = null;
+        let index = 0;
+
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) {
+            document.title = messages[0];
+            intervalId = setInterval(function () {
+              index = (index + 1) % messages.length;
+              document.title = messages[index];
+            }, 4000);
+          } else {
+            clearInterval(intervalId);
+            document.title = originalTitle;
+            index = 0;
+          }
+        });
+      })();
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
