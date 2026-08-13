@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
+// import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
@@ -7,8 +7,8 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import Splash from "@/components/Splash";
 import Timer from "@/components/Timer";
 import ScrollIndicator from "@/components/ScrollIndicator";
-import LetterEditor from "@/components/LetterEditor";
-import { Mail } from "lucide-react";
+const LetterEditor = lazy(() => import("@/components/LetterEditor"));
+// import { Mail } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -297,10 +297,18 @@ export default function HomePage() {
 
             {/* Editor Section */}
             <section className="min-h-screen flex items-center justify-center flex-col w-full max-w-3xl mx-auto py-12 px-4">
-              <LetterEditor
-                value={letterContent}
-                onChange={(html) => setLetterContent(html)}
-              />
+              <Suspense
+                fallback={
+                  <div className="h-64 flex items-center justify-center">
+                    Loading editor...
+                  </div>
+                }
+              >
+                <LetterEditor
+                  value={letterContent}
+                  onChange={(html) => setLetterContent(html)}
+                />
+              </Suspense>
             </section>
 
             {/* Final static non-animated section */}
