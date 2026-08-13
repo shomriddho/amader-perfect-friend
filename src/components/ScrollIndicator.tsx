@@ -1,14 +1,21 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ChevronDown } from "lucide-react";
 
-export default function ScrollIndicator() {
+interface ScrollIndicatorProps {
+  label?: string;
+}
+
+export default function ScrollIndicator({
+  label = "Scroll Down",
+}: ScrollIndicatorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Continuous bounce animation for the arrow
+      // Continuous bounce animation
       gsap.to(arrowRef.current, {
         y: 8,
         duration: 0.8,
@@ -16,51 +23,47 @@ export default function ScrollIndicator() {
         yoyo: true,
         ease: "power1.inOut",
       });
-
-      // 2. Hide indicator smoothly on scroll
-      const handleScroll = () => {
-        if (window.scrollY > 50) {
-          gsap.to(containerRef.current, {
-            opacity: 0,
-            y: 15,
-            duration: 0.4,
-            ease: "power2.out",
-            pointerEvents: "none",
-          });
-        } else {
-          gsap.to(containerRef.current, {
-            opacity: 1,
-            y: 0,
-            duration: 0.4,
-            ease: "power2.out",
-            pointerEvents: "auto",
-          });
-        }
-      };
-
-      window.addEventListener("scroll", handleScroll);
-
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
+  const handleClick = () => {
+    const smoother = ScrollSmoother.get();
+    if (containerRef.current) {
+      // Find the parent section or container of this indicator
+      const currentSection =
+        containerRef.current.closest("section") ||
+        containerRef.current.parentElement;
+      const nextElement =
+        currentSection?.nextElementSibling as HTMLElement | null;
+
+      if (nextElement) {
+        if (smoother) {
+          smoother.scrollTo(nextElement, true, "top top");
+        } else {
+          nextElement.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        // Fallback: scroll down 1 full screen height if no next element exists
+        const targetY = window.scrollY + window.innerHeight;
+        if (smoother) {
+          smoother.scrollTo(targetY, true);
+        } else {
+          window.scrollTo({ top: targetY, behavior: "smooth" });
+        }
+      }
+    }
+  };
+
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-center gap-1 text-sky-600/80 hover:text-sky-600 cursor-pointer transition-colors pt-4"
-      onClick={() => {
-        window.scrollTo({
-          top: window.innerHeight * 0.8,
-          behavior: "smooth",
-        });
-      }}
+      onClick={handleClick}
+      className="flex flex-col items-center gap-1 text-sky-600/80 hover:text-sky-600 cursor-pointer transition-colors pt-6"
     >
-      <span className="text-xs uppercase tracking-widest font-semibold font-sans">
-        Scroll Down
+      <span className="text-xs uppercase tracking-widest font-semibold font-sans select-none">
+        {label}
       </span>
       <div ref={arrowRef}>
         <ChevronDown className="w-5 h-5" />
