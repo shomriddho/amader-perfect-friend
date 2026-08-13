@@ -17,13 +17,14 @@ function Splash() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
-      <h1
-        ref={titleRef}
-        className="text-5xl font-semibold tracking-wide text-white "
-      >
-        <span>আমাদের</span>
-        <span className="text-[#FFB800]">Friend</span>
+    <div className="fixed inset-0 z-50 flex  justify-center items-center   bg-black w-full">
+      <h1 ref={titleRef}>
+        <p className="sm:text-7xl text-6xl font-semibold tracking-wide text-white md:mr-6 mb-8 md:inline">
+          আমাদের
+        </p>
+        <span className="text-amber-500 sm:text-9xl text-8xl ms-madi-regular md:inline">
+          Friend
+        </span>
       </h1>
     </div>
   );
