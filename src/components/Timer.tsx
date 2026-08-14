@@ -9,9 +9,14 @@ interface TimeLeft {
   seconds: number;
 }
 
-export default function Timer() {
+interface TimerProps {
+  onComplete?: () => void;
+}
+
+export default function Timer({ onComplete }: TimerProps) {
   const targetDate = new Date("2026-08-15T00:00:00").getTime();
   const timerCardRef = useRef<HTMLDivElement>(null);
+  const completedRef = useRef(false);
 
   const calculateTimeLeft = (): TimeLeft => {
     const now = new Date().getTime();
@@ -32,12 +37,41 @@ export default function Timer() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
 
   useEffect(() => {
+    // Check if initial load is already expired
+    const remaining = calculateTimeLeft();
+    if (
+      remaining.days === 0 &&
+      remaining.hours === 0 &&
+      remaining.minutes === 0 &&
+      remaining.seconds === 0
+    ) {
+      if (!completedRef.current) {
+        completedRef.current = true;
+        onComplete?.();
+      }
+      return;
+    }
+
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+      const updated = calculateTimeLeft();
+      setTimeLeft(updated);
+
+      if (
+        updated.days === 0 &&
+        updated.hours === 0 &&
+        updated.minutes === 0 &&
+        updated.seconds === 0
+      ) {
+        clearInterval(timer);
+        if (!completedRef.current) {
+          completedRef.current = true;
+          onComplete?.();
+        }
+      }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [onComplete]);
 
   // Entrance animation for cards
   useEffect(() => {
