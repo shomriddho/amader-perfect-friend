@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Main from "./pages/Main";
 
 // Lazy load pages so they split into separate JS chunks
 const HomePage = lazy(() => import("@/pages/HomePage"));
@@ -16,6 +17,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/letters" element={<LettersPage />} />
+            <Route path="/main" element={<Main />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
