@@ -9,6 +9,8 @@ import Cake from "@/components/Cake";
 import Footer from "@/components/Footer";
 import ScrollIndicator from "#components/ScrollIndicator";
 import LetterEditor from "#components/LetterEditor";
+import { HeroVideoDialog } from "#components/HeroVideoDialog";
+import { Button } from "#components/ui/button";
 
 export default function Main() {
   const [showSplash, setShowSplash] = useState(true);
@@ -155,6 +157,39 @@ export default function Main() {
               onChange={(html) => setLetterContent(html)}
             />
           </Suspense>
+        </section>
+        <section className=" flex items-center justify-center flex-col space-y-8 ">
+          <ScrollRevealText
+            text="Now, Amra Ashfikar Fav Songs Shunbo"
+            className="text-3xl text-slate-800 font-sans max-w-xl leading-relaxed p-8"
+            enabled={!showSplash}
+          />
+          <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-4 p-8">
+            <HeroVideoDialog youtubeId="vOXZkm9p_zY" />
+            <HeroVideoDialog youtubeId="Y2NkuFIlLEo" />
+            <HeroVideoDialog youtubeId="0I647GU3Jsc" />
+            <HeroVideoDialog youtubeId="wnz2eZ4fffM" />
+            <HeroVideoDialog youtubeId="v08qmr8m_-w" />
+            <HeroVideoDialog youtubeId="q392mSz4VeY" />
+            <HeroVideoDialog youtubeId="TO-_3tck2tg" />
+            <HeroVideoDialog youtubeId="7wtfhZwyrcc" />
+            <div className="w-full h-full bg-amber-300 flex flex-col items-center justify-center rounded-lg p-4 text-center">
+              <LetterLoadReveal
+                text="Aro Gaan Lagbe?"
+                className="text-6xl sm:text-5xl font-bold ms-madi-regular text-sky-600 drop-shadow-sm leading-tight"
+                delay={0.1}
+                enabled={!showSplash}
+              />
+              <Button
+                variant={"secondary"}
+                onClick={() => alert("Ja Youtube e Shun")}
+              >
+                Watch Playlist
+              </Button>
+            </div>
+          </div>
+
+          <ScrollIndicator />
         </section>
         {/* Footer Section */}
         <Footer enabled={!showSplash} />
