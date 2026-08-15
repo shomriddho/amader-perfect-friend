@@ -82,22 +82,22 @@ export default function Main() {
             />
 
             <LetterLoadReveal
-              text="Happy Birthday!"
+              text="15th August "
               className="text-6xl sm:text-9xl font-bold ms-madi-regular text-sky-600 drop-shadow-sm leading-tight"
               delay={0.1}
               enabled={!showSplash}
             />
             <LetterLoadReveal
-              text="Ashfika"
+              text="Ashfika er Birthday Chilo"
               className="text-6xl sm:text-9xl font-bold ms-madi-regular text-sky-600 drop-shadow-sm leading-tight"
               delay={0.6}
               enabled={!showSplash}
             />
           </div>
         </main>
-        <section className="h-[50vh] flex items-center justify-center flex-col space-y-8">
+        <section className="h-[50vh] flex items-center justify-center flex-col space-y-8 p-4">
           <ScrollRevealText
-            text="Eta Ashfikar Birthday Cake, Click Kore Khao. [ Shob Khaoa Jabe Na, Amar Jonno Ektu Thakbe. ]"
+            text="Eta Ashfikar Birthday Cake Chilo, Click Kore Khao. [ Shob Khaoa Jabe Na, Amar Jonno Ektu Thakbe. ]"
             className="text-3xl text-slate-800 font-sans max-w-xl leading-relaxed"
             enabled={!showSplash}
           />
@@ -108,7 +108,7 @@ export default function Main() {
         <Cake enabled={!showSplash} />
         <section className="h-[80vh] flex items-center justify-center flex-col space-y-8 my-12 text-slate-800 p-4">
           <ScrollRevealText
-            text="Cake Ta Bhalo Chilo Na? Shaown Baniyechilo, And Ami Iceing Korechhi."
+            text="Cake Ta Bhalo Chilo Na? Shaown Baniyechilo, And Ami Iceing Korechhilam."
             className="text-3xl text-slate-700 font-sans max-w-xl leading-relaxed"
             enabled={!showSplash}
           />
